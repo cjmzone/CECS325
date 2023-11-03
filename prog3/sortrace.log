@@ -1,0 +1,9 @@
+
+real	0m0.002s
+user	0m0.001s
+sys	0m0.000s
+
+real	0m0.129s
+user	0m0.005s
+sys	0m0.011s
+sort: mysort.out:9: disorder: 115
