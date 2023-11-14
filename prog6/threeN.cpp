@@ -4,7 +4,9 @@
 using namespace std;
 
 int compute(int num, int &max, int &evenCount, int &oddCount, int &steps) {
+	// check for integer overflow
 	if(num >! INT_MAX) {
+		// if num is even
 		if (num % 2 == 0) {
 			evenCount++;
 			steps++;
@@ -21,7 +23,10 @@ int compute(int num, int &max, int &evenCount, int &oddCount, int &steps) {
 
 			cout << "->(" << next << ")";
 			return compute(next, max, evenCount, oddCount, steps);
+
+		// if num is odd
   		} else {
+
 			oddCount++;
 			steps++;
 			int next = 3 * num + 1;
@@ -56,7 +61,11 @@ int main(int argc, char* argv[]) {
 
 		int max = start;
 		cout << "->(" << start << ")";
-		compute(start, max, evenCount, oddCount, steps);
+		try {
+	    		compute(start, max, evenCount, oddCount, steps);
+			} catch (...) {
+				cout << "ERROR caught:" << endl;
+			}
 		cout << endl;
 
 		cout << "start: " << start << endl;
@@ -65,29 +74,28 @@ int main(int argc, char* argv[]) {
 		cout << "odds: " << oddCount << endl;
 		cout << "evens: " << evenCount << endl;
  	} else {
-    for (int i = 1; i < argc; i++) {
-      	int evenCount = 0;
-      	int oddCount = 0;
-      	int steps = 0;
-     	int start = stoi(argv[i]);
+    	for (int i = 1; i < argc; i++) {
+      		int evenCount = 0;
+      		int oddCount = 0;
+      		int steps = 0;
+     		int start = stoi(argv[i]);
 
-     	int max = start;
-     	cout << "->(" << start << ")";
+     		int max = start;
+     		cout << "->(" << start << ")";
 
-		try {
-	    	compute(start, max, evenCount, oddCount, steps);
-		} catch (...) {
-			cout << "ERROR caught:" << endl;
+			try {
+	    		compute(start, max, evenCount, oddCount, steps);
+			} catch (...) {
+				cout << "->(###overflow###)" << endl;
+			}
+      		cout << endl;
+
+     		cout << "start: " << start << endl;
+      		cout << "steps: " << steps << endl;
+      		cout << "max: " << max << endl;
+      		cout << "odds: " << oddCount << endl;
+      		cout << "evens: " << evenCount << endl;
 		}
-      	cout << endl;
-
-     	cout << "start: " << start << endl;
-      	cout << "steps: " << steps << endl;
-      	cout << "max: " << max << endl;
-      	cout << "odds: " << oddCount << endl;
-      	cout << "evens: " << evenCount << endl;
-    	}
-  }
-
+	}
   return 0;
 }
