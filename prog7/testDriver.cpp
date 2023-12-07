@@ -1,4 +1,5 @@
 #include "BigInt.h"
+#include <typeinfo>
 using namespace std;
 
 // struct to store all details of 3n+1 sequences
@@ -10,7 +11,6 @@ struct ThreeNp1 {
     BigInt even;
 };
 
-/*
 void print(ThreeNp1 temp){
     cout << "start: " << temp.start <<endl ;
     cout << "steps: " << temp.steps << endl;
@@ -18,21 +18,46 @@ void print(ThreeNp1 temp){
     cout << "odds: " << temp.odd << endl;
     cout << "evens: " << temp.even << endl;
 }
-*/
+
+void findThreeNp1(BigInt n, ThreeNp1 & Np1, bool printSteps = false) {
+    if (printSteps) {
+        cout << "->"<<'('<< n <<')';
+    }
+    if (Np1.max < n) {
+        Np1.max = n;
+    }
+    if (n == BigInt(1)) {
+        return; 
+
+    } else if (n.isEven()) {
+        Np1.even++;
+        Np1.steps++;
+        findThreeNp1(n.half(), Np1, printSteps);
+
+    } else if (n.isOdd()) {
+        ++Np1.odd;
+        ++Np1.steps;
+        BigInt tempN(n);
+        findThreeNp1(tempN * BigInt(3) + BigInt(1), Np1, printSteps);
+
+    } else {
+        cout << "How did I get here?\n";
+        return;
+    }
+}
 
 int main(){
-    //cout << INT_MAX << endl;
-    //BigInt MAX(INT_MAX);
-    //cout << "The largest integer is " << MAX << endl;
-    BigInt Three("333"),Four(40);
-    BigInt Seven = Three + Four;
-    cout << "seven: " << Seven << endl;
-    BigInt T(566),F(100);
-    BigInt S = T + F;
-    cout << "s: " << S << endl;
-    int x = Three.size();
-    int i = S.operator[](10);
-    cout << "size: " << x << endl;
-    cout << "number at index: " << i << endl;
+    
+    BigInt MAX(INT_MAX);
+    cout << "The largest integer is " << MAX << endl;
+    cout << "Tiwce the largest integer is " << MAX + MAX << endl;
+    BigInt start(INT_MAX);
+    // BigInt start(12);
+    bool printSteps = false;
+    ThreeNp1 N = {start, 0, 0 , 0 , 0};
+    findThreeNp1(start, N, printSteps);
+    cout << endl;
+    print(N);
     return 0;
+    
 }
